@@ -1,27 +1,19 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const AppFooter = (): React.JSX.Element => {
+type AppFooterProps = {
+  data: string;
+};
+
+const AppFooter = ({ data }: AppFooterProps): React.JSX.Element => {
   const hello = "Hello TNI Footer"; //use of variable
   const hello2 = <Text>Hello JSX</Text>; //variable use with JSX
   const isLogin = true;
   //const isLogin = false;
 
   return (
-    <View>
-      <Text style={styles.myText}>
-        {hello} Date:{new Date().toLocaleDateString()}
-        {/*Date Time*/}
-      </Text>
-
-      {hello2}
-
-      {isLogin && <Text>Welcome Boss</Text>}
-      {/*'&&' check condition if true */}
-      {/* '===' compare both boolean and Data Type */}
-
-      {isLogin ? <Text>Welcome Marry</Text> : <Text>Welcome not Marry</Text>}
-      {/*Ternary*/}
+    <View style={styles.footer}>
+      <Text style={styles.footerText}>{data}</Text>
     </View>
   );
 };
@@ -29,8 +21,19 @@ const AppFooter = (): React.JSX.Element => {
 export default AppFooter;
 
 const styles = StyleSheet.create({
-  myText: {
-    color: "red",
-    backgroundColor: "black",
+  footer: {
+    backgroundColor: "#f8f8f8",
+    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  footerText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
   },
 });
