@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
       backgroundColor: "white",
       elevation: 5,
       marginTop: 50,
+
     },
   
     profileImg: {
