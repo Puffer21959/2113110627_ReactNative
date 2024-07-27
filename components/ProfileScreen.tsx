@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import styles from "../styles/styles";
 
 const ProfileScreen = (): React.JSX.Element => {
+  const pfp1 = require("../assets/pfp.jpg");
+  const pfp2 = require("../assets/pfp2.jpg");
   const [profileImg, setprofileImg] = useState(require("../assets/pfp.jpg"));
   const [name, setName] = useState("Pattrawut Buachuang");
   let check = true;
@@ -12,21 +14,19 @@ const ProfileScreen = (): React.JSX.Element => {
   };
 
   const handleChangeImg = () => {
-    setprofileImg(require("../assets/pfp2.jpg"));
+    setprofileImg(profileImg == pfp1 ? pfp2 : pfp1);
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
         <Image source={profileImg} style={styles.profileImg} />
-        <View>
+        <View style={{ width: 200 }}>
           <Text style={styles.profileName}>{name}</Text>
 
-          <View style={{ minWidth: "50%" }}>
-            <Button title="change name" onPress={handleChangeName} />
-            <Text>{"\n"}</Text>
-            <Button title="change image" onPress={handleChangeImg} />
-          </View>
+          <Button title="change name" onPress={handleChangeName} />
+          <Text>{"\n"}</Text>
+          <Button title="change image" onPress={handleChangeImg} />
         </View>
       </View>
     </View>
