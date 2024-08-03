@@ -1,6 +1,7 @@
 import { Button, Text, View, Image } from "react-native";
 import React, { useState } from "react";
-import {styles} from "../styles/styles";
+import { stylesProfile } from "../styles/styles";
+import Login from "./Login";
 
 const ProfileScreen = (): React.JSX.Element => {
   const pfp1 = require("../assets/pfp.jpg");
@@ -18,17 +19,19 @@ const ProfileScreen = (): React.JSX.Element => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.profileContainer}>
-        <Image source={profileImg} style={styles.profileImg} />
+    <View style={stylesProfile.container}>
+      <View style={stylesProfile.profileContainer}>
+        <Image source={profileImg} style={stylesProfile.profileImg} />
         <View style={{ width: 200 }}>
-          <Text style={styles.profileName}>{name}</Text>
+          <Text style={stylesProfile.profileName}>{name}</Text>
 
           <Button title="change name" onPress={handleChangeName} />
           <Text>{"\n"}</Text>
           <Button title="change image" onPress={handleChangeImg} />
         </View>
       </View>
+
+      <Login />
     </View>
   );
 };
