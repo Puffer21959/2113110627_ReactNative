@@ -1,20 +1,23 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import React from "react";
+import { stylesPractice } from "../styles/styles";
 
 type AppHeaderProps = {
-  name: string;
-  message?: string /* '?' mean optional parameter may or may not have it*/;
+  fullname: string;
+  subtitle?: string /* '?' mean optional parameter may or may not have it*/;
 };
 
 //use of prop
-const AppHeader = ({ name, message }: AppHeaderProps): React.JSX.Element => {
+const AppHeader = ({
+  fullname,
+  subtitle,
+}: AppHeaderProps): React.JSX.Element => {
   return (
-    <View style={styles.header}>
-      <Text style={styles.headerText}>
-        {name}{'\n'}
-        <Text style={styles.subtitleText}>
-            {message}
-        </Text>
+    <View style={stylesPractice.header}>
+      <Text style={stylesPractice.headerText}>
+        Input your fullname: {fullname}
+        {"\n"}
+        <Text style={stylesPractice.subtitleText}>{subtitle}</Text>
       </Text>
       {/*if 'year' is sent we add 543 to year*/}
     </View>
@@ -23,7 +26,7 @@ const AppHeader = ({ name, message }: AppHeaderProps): React.JSX.Element => {
 
 export default AppHeader;
 
-const styles = StyleSheet.create({
+/*const styles = StyleSheet.create({
   header: {
     backgroundColor: "#AEC6CF",
     padding: 20,
@@ -39,4 +42,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#fff",
   },
-});
+});*/

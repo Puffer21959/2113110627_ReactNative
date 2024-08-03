@@ -1,26 +1,27 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import React from "react";
+import { stylesPractice } from "../styles/styles";
 
 type AppFooterProps = {
-  data: string;
+  footerMessage: string;
 };
 
-const AppFooter = ({ data }: AppFooterProps): React.JSX.Element => {
+const AppFooter = ({ footerMessage }: AppFooterProps): React.JSX.Element => {
   const hello = "Hello TNI Footer"; //use of variable
   const hello2 = <Text>Hello JSX</Text>; //variable use with JSX
   const isLogin = true;
   //const isLogin = false;
 
   return (
-    <View style={styles.footer}>
-      <Text style={styles.footerText}>{data}</Text>
+    <View style={stylesPractice.footer}>
+      <Text style={stylesPractice.footerText}>{footerMessage}</Text>
     </View>
   );
 };
 
 export default AppFooter;
 
-const styles = StyleSheet.create({
+/*const styles = StyleSheet.create({
   footer: {
     backgroundColor: "#f8f8f8",
     padding: 20,
@@ -36,4 +37,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#333",
   },
-});
+});*/

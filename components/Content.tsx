@@ -1,7 +1,8 @@
-import { View, Text, Alert, Button, StyleSheet } from "react-native";
-import React from "react";
+import { View, Text, Alert, Button } from "react-native";
+import React, { useState } from "react";
+import { stylesPractice } from "../styles/styles";
 
-type ContentProps = {
+/*type ContentProps = {
   name: string;
   message?: string;
 };
@@ -12,8 +13,8 @@ const onClickMe = () => {
 
 const Content = ({ name, message }: ContentProps) => {
   return (
-    <View style={styles.content}>
-      <Text style={styles.text}>{message}</Text>
+    <View style={stylesPractice.content}>
+      <Text style={stylesPractice.text}>{message}</Text>
       <Button
         title="Click Me"
         //onPress={onClickMe} //call function in parameter
@@ -24,11 +25,35 @@ const Content = ({ name, message }: ContentProps) => {
       />
     </View>
   );
+};*/
+
+interface ContentProps {
+  fullname: string;
+  message: string;
+}
+
+const Content = ({ fullname, message }: ContentProps): React.JSX.Element => {
+  const [displayFullname, setDisplayFullname] = useState("");
+
+  const handleButtonClick = () => {
+    setDisplayFullname(fullname);
+    Alert.alert("Hello", `Input your fullname: ${fullname}`);
+  };
+
+  //() => Alert.alert("Hello", `Input your fullname: ${fullname}`)
+
+  return (
+    <View style={stylesPractice.content}>
+      <Text style={stylesPractice.text}>{message}</Text>
+      <Text style={stylesPractice.text}>{displayFullname}</Text>
+      <Button title="Click Me" onPress={handleButtonClick} color={"magenta"} />
+    </View>
+  );
 };
 
 export default Content;
 
-const styles = StyleSheet.create({
+/*const styles = StyleSheet.create({
   content: {
     flex: 1,
     alignItems: "center",
@@ -38,4 +63,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 20,
   },
-});
+});*/
