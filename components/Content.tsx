@@ -28,25 +28,26 @@ const Content = ({ name, message }: ContentProps) => {
 };*/
 
 interface ContentProps {
-  fullname: string;
+  /*fullname: string;*/
   message: string;
+  onButtonClick: () => void;
 }
 
-const Content = ({ fullname, message }: ContentProps): React.JSX.Element => {
-  const [displayFullname, setDisplayFullname] = useState("");
+const Content = ({ onButtonClick, message }: ContentProps): React.JSX.Element => {
+  /*const [displayFullname, setDisplayFullname] = useState("");
 
   const handleButtonClick = () => {
     setDisplayFullname(fullname);
     Alert.alert("Hello", `Input your fullname: ${fullname}`);
-  };
+  };*/
 
   //() => Alert.alert("Hello", `Input your fullname: ${fullname}`)
 
   return (
     <View style={stylesPractice.content}>
       <Text style={stylesPractice.text}>{message}</Text>
-      <Text style={stylesPractice.text}>{displayFullname}</Text>
-      <Button title="Click Me" onPress={handleButtonClick} color={"magenta"} />
+      {/* <Text style={stylesPractice.text}>{displayFullname}</Text> */}
+      <Button title="Click Me" onPress={onButtonClick} color={"magenta"} />
     </View>
   );
 };
