@@ -1,14 +1,15 @@
 import { View, Text } from "react-native";
 import React from "react";
-import ProfileScreen from "./components/ProfileScreen";
-import UseEffectExample from "./components/UseEffectExample";
+import FlatListExample from "./components/FlatListExample";
+import FlatListcallBackend from "./components/FlatListcallBackend";
 
 const App = (): React.JSX.Element => {
   return (
-    <View>
-      {/* <Text>App</Text> */}
-      <View>{ProfileScreen()}</View>
+    <View>      
+      {/*<View>{ProfileScreen()}</View>*/}
       {/* <UseEffectExample /> */}
+      {/*<View>{FlatListExample()}</View>*/}
+      <FlatListcallBackend />
     </View>
   );
 };

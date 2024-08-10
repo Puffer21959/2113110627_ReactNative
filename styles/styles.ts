@@ -153,4 +153,51 @@ const stylesLogin = StyleSheet.create({
   },
 });
 
-export { stylesProfile, stylesPractice, stylesLogin };
+const stylesFlatlist = StyleSheet.create({
+  container: {
+    marginTop: 50,
+  },
+  item: {
+    //backgroundColor: "#f9c2ff",
+    backgroundColor: "green",
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  name: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  email: {
+    fontSize: 14,
+  },
+});
+
+const stylesFlatlistBackend = StyleSheet.create({
+  container: {
+    justifyContent: "center",
+    paddingTop: 50,
+  },
+  item: {
+    //backgroundColor: "#f9c2ff",
+    backgroundColor: "gray",
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  name: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  email: {
+    fontSize: 16,
+  },
+});
+
+export {
+  stylesProfile,
+  stylesPractice,
+  stylesLogin,
+  stylesFlatlist,
+  stylesFlatlistBackend,
+};
