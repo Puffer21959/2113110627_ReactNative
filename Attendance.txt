@@ -1,11 +1,15 @@
 StudentID : 2113110627
 Fullname : Pattrawut Buachuang
-Date : 13-7-67
+Date : 13-07-67
 
 StudentID : 2113110627
 Fullname : Pattrawut Buachuang
-Date : 27-7-67
+Date : 27-07-67
 
 StudentID : 2113110627
 Fullname : Pattrawut Buachuang
 Date : 03-08-67
+
+StudentID : 2113110627
+Fullname : Pattrawut Buachuang
+Date : 10-08-60
