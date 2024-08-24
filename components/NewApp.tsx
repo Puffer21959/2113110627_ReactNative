@@ -59,7 +59,7 @@ const NewApp = (): React.JSX.Element => {
         <FlatList
           data={data}
           renderItem={_renderItem}
-          keyExtractor={(item) => item.url}
+          keyExtractor={(item) => item.url.toString()}
         ></FlatList>
       )}
     </View>
