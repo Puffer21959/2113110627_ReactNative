@@ -13,13 +13,25 @@ interface WeatherState {
   data: any;
   loading: boolean;
   error: string | null;
+  currentDate: Date | null;
 } //for useState
+
+const formatDate = (date: Date | null): string => {
+  if (!date) return "";
+  const option: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return date.toLocaleDateString("th-TH", option);
+};
 
 const WeatherBangkok = (): React.JSX.Element => {
   const [state, setState] = useState<WeatherState>({
     data: null,
     loading: true,
     error: null,
+    currentDate: new Date(),
   });
 
   const fetchWeatherData = async () => {
@@ -33,12 +45,14 @@ const WeatherBangkok = (): React.JSX.Element => {
         data: response.data,
         loading: false,
         error: null,
+        currentDate: new Date(),
       });
     } catch (error) {
       setState({
         data: null,
         loading: false,
         error: "Failed to fetch weather data",
+        currentDate: null,
       });
     }
   };
@@ -63,11 +77,9 @@ const WeatherBangkok = (): React.JSX.Element => {
     );
   }
 
-  const date = new Date();
-
   return (
     <View style={styleWeatherBangkok.container}>
-      <Text style={style.test}>{date.toLocaleString()}</Text>
+      <Text style={style.test}>{formatDate(state.currentDate)}</Text>
       <Text style={styleWeatherBangkok.cityName}>{state.data.name}</Text>
       <Text style={styleWeatherBangkok.temp}>{state.data.main.temp} ํC</Text>
 
