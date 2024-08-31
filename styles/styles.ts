@@ -354,7 +354,8 @@ const styleWeatherBangkok = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
-    backgroundColor: "#f5f5f5",
+    //backgroundColor: "#f5f5f5",
+    backgroundColor: "azure",
   },
   centeredContainer: {
     justifyContent: "center",
@@ -374,7 +375,8 @@ const styleWeatherBangkok = StyleSheet.create({
     fontSize: 64,
     fontWeight: "bold",
     marginBottom: 8,
-    color: "#ff6347",
+    //color: "#ff6347",
+    color: "green",
   },
   weatherMain: {
     fontSize: 28,
@@ -428,5 +430,5 @@ export {
   styleAxiosgetData,
   styleAxiospostData,
   styleWeatherLondon,
-  styleWeatherBangkok
+  styleWeatherBangkok,
 };
