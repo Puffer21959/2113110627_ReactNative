@@ -43,14 +43,16 @@ const WeatherApp = (): React.JSX.Element => {
         visible={modalVisible}
         onRequestClose={() => setModalVisible(!modalVisible)}
       >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalBackground}>{renderWeatherComponent()}</View>
-          <TouchableOpacity
-            style={styles.closeButton}
-            onPress={() => setModalVisible(!modalVisible)}
-          >
-            <Text style={styles.closeButtonText}>Close</Text>
-          </TouchableOpacity>
+        <View style={styles.modalBackground}>
+          <View style={styles.modalContainer}>
+            {renderWeatherComponent()}
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.closeButtonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Modal>
     </View>
