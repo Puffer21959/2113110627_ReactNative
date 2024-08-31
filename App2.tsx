@@ -1,0 +1,33 @@
+import { View, Text } from "react-native";
+import React from "react";
+import FlatListExample from "./components/FlatListExample";
+import FlatListcallBackend from "./components/FlatListcallBackend";
+import NewApp from "./components/NewApp";
+import AxiosgetData from "./components/AxiosgetData";
+import AxiospostData from "./components/AxiospostData";
+import WeatherLondon from "./components/WeatherLondon";
+import WeatherBangkok from "./components/WeatherBangkok";
+import ModalExample from "./components/ModalExample";
+import WeatherApp from "./components/WeatherApp";
+import AboutScreen from "./screens/AboutScreen";
+
+const App = (): React.JSX.Element => {
+  return (
+    <View>
+      {/*<View>{ProfileScreen()}</View>*/}
+      {/* <UseEffectExample /> */}
+      {/*<View>{FlatListExample()}</View>*/}
+      {/*<FlatListcallBackend />*/}
+      {/* {<NewApp />} */}
+      {/* {<AxiosgetData />} */}
+      {/* {<AxiospostData />} */}
+      {/* {<WeatherLondon />} */}
+      {/* {<WeatherBangkok />} */}
+      {/* {<ModalExample />} */}
+      {/* {<WeatherApp />} */}
+      <AboutScreen />
+    </View>
+  );
+};
+
+export default App;
