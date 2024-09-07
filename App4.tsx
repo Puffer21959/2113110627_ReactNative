@@ -1,16 +1,24 @@
-import { View, Text } from "react-native";
-import React from "react";
-import ProfileScreen from "./components/ProfileScreen";
-import UseEffectExample from "./components/UseEffectExample";
+import { View, Text } from 'react-native'
+import React from 'react'
+import AboutScreen from './screens/AboutScreen'
 
-const App = (): React.JSX.Element => {
+
+const App = ():React.JSX.Element => {
   return (
     <View>
-      {/* <Text>App</Text> */}
-      <View>{ProfileScreen()}</View>
-      {/* <UseEffectExample /> */}
+      {/* <ProfileScreen/>       */}
+      {/* <FlastListExample/> */}
+      {/* <FlatListcallBackend/> */}
+      {/* <NewsApp/> */}
+      {/* <AxiosgetData/> */}
+      {/* <AxiosPostData/> */}
+      {/* <WeatherLondon/> */}
+      {/* <WeatherBangkok/> */}
+      {/* <ModelExample/> */}
+      {/* <WeatherApp/> */}
+      <AboutScreen/>
     </View>
-  );
-};
+  )
+}
 
-export default App;
+export default App
