@@ -1,230 +1,285 @@
-// Only import react-native-gesture-handler on native platforms
-import "react-native-gesture-handler";
-
-import React, { useState } from "react";
-import { View, ActivityIndicator } from "react-native";
-import { HeaderButtonsProvider } from "react-navigation-header-buttons";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import Toast from "react-native-toast-message";
-import { Provider } from "react-redux";
-import { store } from "./redux-toolkit/store";
-import { useAppSelector, useAppDispatch } from "./redux-toolkit/hook";
+import React, { useState, useEffect } from "react";
 import {
-  selectAuthState,
-  setIsLoading,
-  setIsLogin,
-  setProfile,
-} from "./auth/auth-slice";
-import { getProfile } from "./services/auth-service";
-import Ionicons from "react-native-vector-icons/Ionicons";
+  SafeAreaView,
+  FlatList,
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+  Alert,
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import HomeScreen from "./screens/HomeScreen";
-import AboutScreen from "./screens/AboutScreen";
-import MenuScreen from "./screens/MenuScreen";
-import ProductScreen from "./screens/ProductScreen";
-import DetailScreen from "./screens/DetailScreen";
-import LoginScreen from "./screens/LoginScreen";
-import CameraScreen from "./screens/CameraScreen";
+// Define the type for a Task
+type Task = {
+  id: string;
+  text: string;
+  completed: boolean;
+};
 
-import { NavigationContainer, useFocusEffect } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+const App = () => {
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [newTask, setNewTask] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
-const HomeStack = createNativeStackNavigator();
-const ProductStack = createNativeStackNavigator();
-const LoginStack = createNativeStackNavigator();
-const CameraStack = createNativeStackNavigator();
+  // Load tasks from AsyncStorage
+  useEffect(() => {
+    //ให้นักศึกษาเขียน code ในส่วนนี้เอง
+    loadTasks();
+  }, []);
 
-const Drawer = createDrawerNavigator();
-
-const Tab = createBottomTabNavigator();
-
-function TabContainer() {
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName = "";
-
-          if (route.name === "Home") {
-            iconName = focused
-              ? "ios-information-circle"
-              : "ios-information-circle-outline";
-          } else if (route.name === "Settings") {
-            iconName = focused ? "ios-list" : "ios-list-outline";
-          }
-
-          // You can return any component that you like here!
-          return <Ionicons name={iconName} size={16} color={color} />;
-        },
-        tabBarActiveTintColor: "tomato",
-        tabBarInactiveTintColor: "gray",
-        headerShown: false,
-      })}
-    >
-      <Tab.Screen
-        name="HomeStack"
-        component={HomeStackScreen}
-        options={{ tabBarLabel: "หน้าหลัก" }}
-      />
-      <Tab.Screen
-        name="CameraStack"
-        component={CameraStackScreen}
-        options={{ tabBarLabel: "กล้อง" }}
-      />
-    </Tab.Navigator>
-  );
-}
-
-function CameraStackScreen() {
-  return (
-    <CameraStack.Navigator
-      initialRouteName="Products"
-      screenOptions={{
-        //Global
-        headerTitleStyle: { fontWeight: "bold" },
-      }}
-    >
-      <CameraStack.Screen
-        name="Login"
-        component={CameraScreen}
-        options={{ title: "Camera" }}
-      />
-    </CameraStack.Navigator>
-  );
-}
-
-function HomeStackScreen() {
-  return (
-    <HomeStack.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        //Global
-        headerTitleStyle: { fontWeight: "bold" },
-      }}
-    >
-      <HomeStack.Screen name="Home" component={HomeScreen} />
-      <HomeStack.Screen
-        name="About"
-        component={AboutScreen}
-        options={{
-          title: "เกี่ยวกับเรา",
-          headerStyle: { backgroundColor: "#20b2aa" },
-          headerTintColor: "white",
-          headerTitleAlign: "center",
-        }}
-      />
-    </HomeStack.Navigator>
-  );
-}
-
-function ProductStackScreen() {
-  return (
-    <ProductStack.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        //Global
-        headerTitleStyle: { fontWeight: "bold" },
-      }}
-    >
-      <ProductStack.Screen name="Products" component={ProductScreen} />
-      <ProductStack.Screen name="Detail" component={DetailScreen} />
-    </ProductStack.Navigator>
-  );
-}
-
-function LoginStackScreen() {
-  return (
-    <LoginStack.Navigator
-      initialRouteName="Products"
-      screenOptions={{
-        //Global
-        headerTitleStyle: { fontWeight: "bold" },
-      }}
-    >
-      <LoginStack.Screen name="Login" component={LoginScreen} />
-    </LoginStack.Navigator>
-  );
-}
-
-const App = (): React.JSX.Element => {
-  //const [isLogin] = useState(false);
-  //use useAppSelector to pull 'state' from 'store'
-  const { isLogin, isLoading } = useAppSelector(selectAuthState);
-  const dispatch = useAppDispatch();
-
-  const checkLogin = async () => {
+  // Load tasks from AsyncStorage
+  const loadTasks = async () => {
     try {
-      dispatch(setIsLoading(true));
-      const response = await getProfile();
-
-      /*if (response?.status === 200) {
-        dispatch(setProfile(response.data.data.user));
-        dispatch(setIsLogin(true));
-      } else {
-        dispatch(setIsLogin(false));
-      }*/
-      if (response?.data.data.user) {
-        dispatch(setProfile(response.data.data.user));
-        dispatch(setIsLogin(true));
-      } else {
-        dispatch(setIsLogin(false));
+      const savedTasks = await AsyncStorage.getItem("tasks");
+      if (savedTasks) {
+        setTasks(JSON.parse(savedTasks));
       }
     } catch (error) {
-      console.log(error);
-    } finally {
-      dispatch(setIsLoading(false));
+      console.error("Failed to load tasks:", error);
     }
   };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      checkLogin();
-    }, [])
-  );
+  // Save tasks to AsyncStorage
+  const saveTasks = async (updatedTasks: Task[]) => {
+    try {
+      await AsyncStorage.setItem("tasks", JSON.stringify(updatedTasks));
+    } catch (error) {
+      console.error("Failed to save tasks:", error);
+    }
+  };
 
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color="blue" />
-      </View>
+  // Add new task
+  const addTask = () => {
+    if (newTask.trim()) {
+      const updatedTasks: Task[] = [
+        ...tasks,
+        {
+          id: Date.now().toString(),
+          text: newTask,
+          completed: false, // Initialize task as not completed
+        },
+      ];
+      setTasks(updatedTasks);
+      saveTasks(updatedTasks);
+      setNewTask(""); // Clear input
+    } else {
+      Alert.alert("Error", "Task description cannot be empty.");
+    }
+  };
+
+  // Toggle task completion
+  const toggleTask = (id: string) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === id ? { ...task, completed: !task.completed } : task
     );
-  }
+    setTasks(updatedTasks);
+    saveTasks(updatedTasks);
+  };
 
+  // Delete task
+  const deleteTask = (id: string) => {
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+    saveTasks(updatedTasks);
+  };
+
+  // Open modal to edit task
+  const openModal = (task: Task) => {
+    setSelectedTask(task); // Set the selected task correctly
+    setNewTask(task.text); // Set the new task's text
+    setModalVisible(true); // Show the modal
+  };
+
+  // Update task
+  const updateTask = () => {
+    if (newTask.trim() && selectedTask) {
+      const updatedTasks = tasks.map((task) =>
+        task.id === selectedTask.id ? { ...task, text: newTask } : task
+      );
+      setTasks(updatedTasks);
+      saveTasks(updatedTasks);
+      setModalVisible(false);
+      setNewTask("");
+      setSelectedTask(null);
+    } else {
+      Alert.alert("Error", "Task description cannot be empty.");
+    }
+  };
+
+  const _renderItem = ({ item }: { item: Task }) => (
+    <View style={styles.taskContainer}>
+      <TouchableOpacity onPress={() => toggleTask(item.id)}>
+        <Text
+          style={item.completed ? styles.completedTask : { fontWeight: "bold" }}
+        >
+          {item.text}
+        </Text>
+      </TouchableOpacity>
+
+      <SafeAreaView style={{ flexDirection: "row" }}>
+        <TouchableOpacity
+          onPress={() => openModal(item)}
+          style={styles.editButton}
+        >
+          <Text style={styles.editButtonText}>Edit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => deleteTask(item.id)}
+          style={styles.deleteButton}
+        >
+          <Text style={styles.deleteButtonText}>Delete</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    </View>
+  );
+  //Ux
   return (
     <>
-      <HeaderButtonsProvider stackType="native">
-        {/*ternary operator if 'isLogin' is false go to login screen */}
-        {isLogin ? (
-          <Drawer.Navigator
-            screenOptions={{ headerShown: false }}
-            drawerContent={(props) => <MenuScreen {...props} />}
-          >
-            <Drawer.Screen name="Home" component={TabContainer} />
-            <Drawer.Screen name="ProductStack" component={ProductStackScreen} />
-          </Drawer.Navigator>
-        ) : (
-          <LoginStackScreen />
-        )}
-      </HeaderButtonsProvider>
-
-      <Toast />
+      <View style={styles.container}>
+        <Text style={styles.title}>Advanced Task Manager</Text>
+        <TextInput
+          style={styles.input}
+          value={newTask}
+          onChangeText={setNewTask}
+          placeholder="Enter new task"
+        />
+        <TouchableOpacity style={styles.addButton} onPress={() => addTask()}>
+          <Text style={styles.buttonText}>Add Task</Text>
+        </TouchableOpacity>
+        <FlatList
+          data={tasks}
+          renderItem={_renderItem}
+          keyExtractor={(Item) => Item.id}
+        ></FlatList>
+        <Modal
+          transparent={false}
+          animationType="slide"
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(!modalVisible)}
+        >
+          <View style={styles.modalView}>
+            <TextInput
+              style={styles.input}
+              value={newTask}
+              onChangeText={setNewTask}
+              placeholder="test"
+            />
+            <TouchableOpacity
+              style={styles.updateButton}
+              onPress={() => updateTask()}
+            >
+              <Text style={styles.buttonText}>Update Task</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.buttonText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      </View>
     </>
   );
+  //ให้นักศึกษาเขียน code ในส่วนนี้เอง เพื่อให้ได้ผลลัพธ์การทำงานตามที่โจทย์กำหนดให้
 };
 
-const AppWrapper = () => {
-  return (
-    <Provider store={store}>
-      <SafeAreaProvider>
-        <NavigationContainer>
-          <App />
-        </NavigationContainer>
-      </SafeAreaProvider>
-    </Provider>
-  );
-};
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 50,
+    backgroundColor: "#f8f8f8",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+    color: "#333",
+  },
+  input: {
+    borderColor: "#333",
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: 20,
+    borderRadius: 8,
+    backgroundColor: "#fff",
+  },
+  addButton: {
+    backgroundColor: "#007bff",
+    paddingVertical: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    marginBottom: 20,
+    alignSelf: "stretch", // This makes the button take the full width
+  },
+  taskContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 15,
+    marginVertical: 8,
+    backgroundColor: "#e0e0e0",
+    borderRadius: 8,
+  },
+  taskText: {
+    fontSize: 18,
+    flex: 1,
+  },
+  completedTask: {
+    textDecorationLine: "line-through",
+    color: "#999",
+  },
+  editButton: {
+    marginRight: 10,
+  },
+  editButtonText: {
+    color: "blue",
+  },
+  deleteButton: {},
+  deleteButtonText: {
+    color: "red",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 8,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  updateButton: {
+    backgroundColor: "#28a745",
+    paddingVertical: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    marginBottom: 10,
+    alignSelf: "stretch", // This makes the button take the full width
+  },
+  cancelButton: {
+    backgroundColor: "#dc3545",
+    paddingVertical: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    alignSelf: "stretch", // This makes the button take the full width
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+});
 
-export default AppWrapper;
-//export default App;
+export default App;
